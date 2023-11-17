@@ -13,11 +13,6 @@ const MoviePage = (props) => {
     getMovie
   );
 
-  const { data: externalId } = useQuery(
-    ["movie", { id: id }],
-    getMoviesExternalIds(id)
-  );
-  
 
   if (isLoading) {
     return <Spinner />;

@@ -19,7 +19,9 @@ const TemplateMoviePage = ({ movie, children }) => {
   if (isError) {
     return <h1>{error.message}</h1>;
   }
-  const firstImage = data.posters ? [data.posters[0]] : [];
+  const firstImage = data.posters ? data.posters.slice(1, 4) : [];
+
+  console.log("movie images ", data)
 
   return (
     <>
@@ -40,6 +42,7 @@ const TemplateMoviePage = ({ movie, children }) => {
                         src={`https://image.tmdb.org/t/p/w500/${image.file_path}`}
                         alt={image.poster_path}
                     />
+
                     </ImageListItem>
                 ))}
             </ImageList>

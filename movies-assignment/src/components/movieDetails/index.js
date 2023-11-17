@@ -16,6 +16,8 @@ import Grid from "@mui/material/Grid";
 import ActorList from "../../components/actorsList";
 import IconButton from "@mui/material/IconButton";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { getMoviesExternalIds } from '../../api/tmdb-api'
+
 
 
 
@@ -71,6 +73,11 @@ const MovieDetails = ({ movie }) => {
     navigate(`/movies/${movieId}/actors`);
   };
 
+  const { data: externalId } = useQuery(
+    ["externalIds", { id: id }],
+    () => getMoviesExternalIds(id)
+  );
+
   return (
     <>
       <Typography variant="h5" component="h3">
@@ -79,6 +86,58 @@ const MovieDetails = ({ movie }) => {
 
       <Typography variant="h6" component="p">
         {movie.overview}
+      </Typography>
+
+      <Typography variant="h5" component="p">
+        External Information
+      </Typography>
+
+      <Typography variant="h6" component="p">
+        {externalId && externalId.imdb_id && (
+          <a
+            href={`https://www.imdb.com/title/${externalId.imdb_id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            IMDb Page
+          </a>
+        )}
+      </Typography>
+
+      <Typography variant="h6" component="p">
+        {externalId && externalId.twitter_id && (
+          <a
+            href={`https://twitter.com/${externalId.twitter_id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Twitter Page
+          </a>
+        )}
+      </Typography>
+
+      <Typography variant="h6" component="p">
+        {externalId && externalId.facebook_id && (
+          <a
+            href={`https://www.facebook.com/${externalId.facebook_id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Facebook Page
+          </a>
+        )}
+      </Typography>
+
+      <Typography variant="h6" component="p">
+        {externalId && externalId.instagram_id && (
+          <a
+            href={`https://www.instagram.com/${externalId.instagram_id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Instagram Page
+          </a>
+        )}
       </Typography>
 
       <Paper 
