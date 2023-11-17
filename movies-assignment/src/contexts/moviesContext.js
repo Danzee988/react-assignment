@@ -20,8 +20,14 @@ const MoviesContextProvider = (props) => {
   };
 
   const addToWatchList = (movie) => {
-    setWatchList([...watchList, movie]);
-    localStorage.setItem('watchList', JSON.stringify(watchList));
+    let newWatchList = [];
+    if (!watchList.includes(movie.id)){
+      newWatchList = [...watchList, movie.id];
+    }
+    else{
+      newWatchList = [...watchList];
+    }
+    setWatchList(newWatchList)
  };
   
   // We will use this function in a later section
@@ -34,7 +40,6 @@ const MoviesContextProvider = (props) => {
   const addReview = (movie, review) => {
     setMyReviews( {...myReviews, [movie.id]: review } )
   };
-  console.log(myReviews);
 
   return (
     <MoviesContext.Provider

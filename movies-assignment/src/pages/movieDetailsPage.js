@@ -2,10 +2,9 @@ import React from "react";
 import { useParams } from 'react-router-dom';
 import MovieDetails from "../components/movieDetails/";
 import PageTemplate from "../components/templateMoviePage";
-import { getMovie } from '../api/tmdb-api'
+import { getMovie, getMoviesExternalIds } from '../api/tmdb-api'
 import { useQuery } from "react-query";
 import Spinner from '../components/spinner'
-//import useMovie from "../hooks/useMovie";
 
 const MoviePage = (props) => {
   const { id } = useParams();
@@ -13,6 +12,12 @@ const MoviePage = (props) => {
     ["movie", { id: id }],
     getMovie
   );
+
+  const { data: externalId } = useQuery(
+    ["movie", { id: id }],
+    getMoviesExternalIds(id)
+  );
+  
 
   if (isLoading) {
     return <Spinner />;
@@ -22,6 +27,7 @@ const MoviePage = (props) => {
     return <h1>{error.message}</h1>;
   }
 
+  //console.log('Movies:', JSON.stringify(movie, null, 2));
   return (
     <>
       {movie ? (
