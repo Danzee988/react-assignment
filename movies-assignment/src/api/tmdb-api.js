@@ -1,14 +1,36 @@
   export const getMovies = () => {
     return fetch(
-      `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=1`
+      `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_KEY}&include_adult=false&include_video=true&language=en-US&page=1`
     ).then((response) => {
       if (!response.ok) {
         throw new Error(response.json().message);
       }
       return response.json();
     })
+    .then((data) => {
+      console.log("Data from API:(movies)", data);
+      return data;
+    })
     .catch((error) => {
-      throw error
+      throw error;
+    });
+  };
+
+  export const getMoviesSorted = (sort_by) => {
+    return fetch(
+      `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_KEY}&include_adult=false&include_video=true&language=en-US&page=1${sort_by=sort_by}`
+    ).then((response) => {
+      if (!response.ok) {
+        throw new Error(response.json().message);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log("Data from API:(movies)", data);
+      return data;
+    })
+    .catch((error) => {
+      throw error;
     });
   };
   

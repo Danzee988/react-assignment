@@ -39,7 +39,7 @@ export default function FilterMoviesCard(props) {
 
   const handleChange = (e, type, value) => {
     e.preventDefault();
-    props.onUserInput(type, value); // NEW
+    props.onUserInput(type, value);
   };
 
   const handleTextChange = (e, props) => {
@@ -52,6 +52,10 @@ export default function FilterMoviesCard(props) {
 
   const handleVoteChange = (e) => {
     handleChange(e, "vote", e.target.value);
+  };
+
+  const handleSortOrderChange = (e) => {
+    handleChange(e, "sortOrder", e.target.value);
   };
 
   return (
@@ -116,6 +120,25 @@ export default function FilterMoviesCard(props) {
             <MenuItem value={9}>9</MenuItem>
             <MenuItem value={10}>10</MenuItem>
 
+          </Select>
+        </FormControl>
+
+        <FormControl sx={{ ...formControl }}>
+          <InputLabel id="sort-order-label">Sort Order</InputLabel>
+          <Select
+            labelId="sort-order-label"
+            id="sort-order-select"
+            defaultValue=""
+            value={props.sortOrderFilter}
+            onChange={handleSortOrderChange}
+          >
+            <MenuItem value="">All</MenuItem>
+            <MenuItem value="&sort_by=popularity.desc">Popularity Descending</MenuItem>
+            <MenuItem value="&sort_by=popularity.asc">Popularity Ascending</MenuItem>
+            <MenuItem value="&sort_by=vote_average.asc">Vote Average Ascending</MenuItem>
+            <MenuItem value="&sort_by=vote_average.desc">Vote Average Descending</MenuItem>
+            <MenuItem value="&sort_by=primary_release_date.asc">Release Date Ascending</MenuItem>
+            <MenuItem value="&sort_by=primary_release_date.desc">Release Date Descending</MenuItem>
           </Select>
         </FormControl>
 
