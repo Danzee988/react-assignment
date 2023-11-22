@@ -6,10 +6,12 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { getActorImages } from "../../api/tmdb-api";
 import { Link } from "react-router-dom";
+import Image from "../../images/depositphotos_137014128-stock-illustration-user-profile-icon.jpg"
 
 const ActorCard = ({ actor }) => {
   const { data: actorImages, error } = useQuery(["actorImages", actor.id], () => getActorImages(actor.id));
-  
+
+  console.log("Here ", actor)
   if (error) {
     console.error("Error fetching actor images:", error);
   }
@@ -18,15 +20,20 @@ const ActorCard = ({ actor }) => {
 
   return (
     <Card sx={{ marginTop: 1, maxWidth: 300, maxHeight: 300 }}>
-      {firstActorImage && (
+
         <Link to={`/movies/:id/actors/${actor.id}`}>
         <CardMedia
           component="img"
-          image={`https://image.tmdb.org/t/p/w500${firstActorImage}`}
+          height={200}
+          image={actor.profile_path
+            ?
+            `https://image.tmdb.org/t/p/w500${firstActorImage}`
+            : Image
+        }
           alt={actor.name}
         />
         </Link>
-      )}
+      
       <CardContent>
         <Typography variant="h10" component="div">
           {actor.name}

@@ -20,6 +20,8 @@ import MovieCastPage from "./pages/movieCastPage";
 import TrendingActorsPage from "./pages/trendingActorsPage";
 import TrendingMoviesPage from "./pages/trendingMoviesPage";
 import ActorsMoviesPage from "./pages/actorsDetailsPage";
+import Login from "./components/login"
+import Signup from "./components/signup"
 
 
 
@@ -54,6 +56,10 @@ const App = () => {
           <Route path="/actors/trending/day" element={<TrendingActorsPage />} />
           <Route path="/movies/trending/day" element={<TrendingMoviesPage />} />
           <Route path="/movies/:id/actors/:actorsid" element={<ActorsMoviesPage />} />
+          
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
+
 
           <Route path="/" element={<HomePage />} />
           <Route path="*" element={ <Navigate to="/" /> } />

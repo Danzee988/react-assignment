@@ -20,6 +20,8 @@ This is a movies database website. The website provides information about movies
 + In the actors page there is information about the actor and all the movies that actor was casted in.
 + In the filters card a vote average filter has been added which displays movies that range in the selected vote average.
 + In the filter card a sort order has been added that sorts the displayed movies depending on which option the user has selected
++ In every page displaying movies im using pagination where I specify the number of movies to display
++ Creation and login of an account with the use of firebase
 
 ## Setup requirements.
 
@@ -29,7 +31,7 @@ This is a movies database website. The website provides information about movies
 
 [ List the __additional__ TMDB endpoints used, giving the description and pathname for each one.] 
 
-e.g.
+
 + Movie recommendations - /movies/:id/recommendations
 + Latest movies - /movies/latest
 + Popular movies - /movies/popular
@@ -43,10 +45,13 @@ e.g.
 
 [ List the __new routes__ supported by your app and state the associated page.]
 
-+ /blogs - displays all published blogs.
-+ /blogs/:id - displays a particular blog.
-+ /blogs/:id/comments - detail view of a particular blog and its comments.
-+ etc.
++ Displays recommended movies in respect to the movie selected- /movies/:id/recommendations 
++ Displays the latest movies - /movies/latest 
++ Displays a list of popular movies - /movies/popular
++ A page with all the actors cast in the movie - /movies/:id/actors
++ Top actors trending today - /actors/trending/day
++ top movies trending today - /movies/trending/day
++ Details about a specific actor - /movies/:id/actors/:actorsid
 
 [If relevant, state what aspects of your app are protected (i.e. require authentication) and what is public.]
 

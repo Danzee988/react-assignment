@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect  } from "react";
 import Header from "../headerMovieList";
 import FilterCard from "../filterMoviesCard";
 import MovieList from "../movieList";
@@ -6,15 +6,59 @@ import Grid from "@mui/material/Grid";
 import { getMoviesSorted } from "../../api/tmdb-api";
 import { useQuery } from 'react-query';
 import Spinner from '../../components/spinner';
+import Pagination from '@mui/material/Pagination';
+import { auth } from "../../components/firebase"
 
 function MovieListPageTemplate({movies, title, action }) {
   const [nameFilter, setNameFilter] = useState("");
   const [genreFilter, setGenreFilter] = useState("0");
   const [voteFilter, setVoteFilter] = useState("0");
   const [sortOrderFilter, setSortOrderFilter] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const moviesPerPage = 5;
 
   const genreId = Number(genreFilter);
   const voteAverage = Number(voteFilter);
+
+  // Calculate the index range of movies to display on the current page
+  const startIndex = (currentPage - 1) * moviesPerPage;
+  const endIndex = startIndex + moviesPerPage;
+
+  const [user, setUser] = useState(null);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setUser(user);
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  const handleLogin = async () => {
+    try {
+      setIsLoggingIn(true);
+      await auth.signInWithEmailAndPassword(email, password);
+      // You can redirect the user or perform additional actions after login
+    } catch (error) {
+      console.error('Error logging in:', error.message);
+    } finally {
+      setIsLoggingIn(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await auth.signOut();
+      // You can redirect the user or perform additional actions after logout
+    } catch (error) {
+      console.error('Error logging out:', error.message);
+    }
+  };
 
   let { data, error, isLoading, isError, refetch  } = useQuery('discover', () => {
     if (sortOrderFilter) {
@@ -24,6 +68,12 @@ function MovieListPageTemplate({movies, title, action }) {
       return Promise.resolve({ results: movies }); // Uses the passed-in movies when sortOrderFilter is empty
     }
   });
+
+  const handleChangePage = (event, newPage) => {
+    setCurrentPage(newPage);
+    refetch();
+  };
+  
 
   console.log("filter ", sortOrderFilter)
 
@@ -61,6 +111,9 @@ function MovieListPageTemplate({movies, title, action }) {
 
   };
 
+  const currentMovies = displayedMovies.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(displayedMovies.length / moviesPerPage);
+
   return (
     <Grid container sx={{ padding: '20px' }}>
       <Grid item xs={12}>
@@ -77,7 +130,14 @@ function MovieListPageTemplate({movies, title, action }) {
           />
         </Grid>
         
-        <MovieList action={action} movies={displayedMovies}></MovieList>
+        <MovieList action={action} movies={currentMovies}></MovieList>
+        <Grid item xs={12}>
+        <Pagination
+          count={totalPages}
+          page={currentPage}
+          onChange={ handleChangePage}
+        />
+      </Grid>
       </Grid>
     </Grid>
   );

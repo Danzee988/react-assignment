@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -20,6 +20,14 @@ import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 import PersonIcon from '@mui/icons-material/Person';
 import SignalCellularAltIcon from '@mui/icons-material/SignalCellularAlt';
 import MovieIcon from '@mui/icons-material/Movie';
+import LoginIcon from '@mui/icons-material/Login';
+import EditNoteIcon from '@mui/icons-material/EditNote';
+import Login from "../login"
+import Signup from "../signup"
+import { auth } from "../../components/firebase";
+import { onAuthStateChanged, signOut } from 'firebase/auth'; // Add missing imports
+
+
 
 const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
 
@@ -32,6 +40,18 @@ const SiteHeader = ({ history }) => {
   
   const navigate = useNavigate();
 
+  const [user, setUser] = useState(null);
+
+  // Subscribe to the Firebase authentication state
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+    });
+
+    // Clean up the subscription when the component unmounts
+    return () => unsubscribe();
+  }, []);
+
   const menuOptions = [
     { icon: < HomeIcon/>, label: "Home", path: "/" },
     { icon: <FavoriteIcon/>, label: "Favourites", path: "/movies/favorites" },
@@ -39,6 +59,7 @@ const SiteHeader = ({ history }) => {
     { icon: <ListIcon/> ,label: "WatchList", path: "/movies/watchList" },
     { icon: <NewReleasesIcon/> ,label: "Latest", path: "/movies/latest" },
     { icon: <LocalFireDepartmentIcon/> ,label: "Popular", path: "/movies/popular" },
+   
 
   ];
 
@@ -49,8 +70,15 @@ const SiteHeader = ({ history }) => {
   ];
 
   const handleMenuSelect = (pageURL) => {
-    navigate(pageURL, { replace: true });
-    setAnchorEl(null); // Close the menu after navigation
+    // If the user clicks Logout, sign them out
+    if (pageURL === "/logout") {
+      signOut(auth).then(() => {
+        navigate("/login");
+      });
+    } else {
+      navigate(pageURL, { replace: true });
+    }
+    setAnchorEl(null);
   };
 
   const handleTrendingMenuSelect = (pageURL) => {
@@ -61,7 +89,7 @@ const SiteHeader = ({ history }) => {
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
-  };
+  };  
 
   return (
     <>
@@ -165,6 +193,31 @@ const SiteHeader = ({ history }) => {
               </>
               
             )}
+               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginLeft: 'auto' }}>
+              {user ? (
+                <>
+                  <IconButton onClick={() => handleMenuSelect("/profile")} color="inherit">
+                    <PersonIcon />
+                    <Typography variant="caption">Profile</Typography>
+                  </IconButton>
+                  <IconButton onClick={() => handleMenuSelect("/logout")} color="inherit">
+                    <LoginIcon />
+                    <Typography variant="caption">Logout</Typography>
+                  </IconButton>
+                </>
+              ) : (
+                <>
+                  <IconButton onClick={() => handleMenuSelect("/login")} color="inherit">
+                    <LoginIcon />
+                    <Typography variant="caption">Login</Typography>
+                  </IconButton>
+                  <IconButton onClick={() => handleMenuSelect("/signup")} color="inherit">
+                    <EditNoteIcon />
+                    <Typography variant="caption">Signup</Typography>
+                  </IconButton>
+                </>
+              )}
+            </div>
         </Toolbar>
       </AppBar>
       <Offset />

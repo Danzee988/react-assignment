@@ -3,11 +3,24 @@ import Header from "../headerMovieList";
 import FilterCard from "../filterMoviesCard";
 import MovieList from "../movieList";
 import Grid from "@mui/material/Grid";
+import Pagination from '@mui/material/Pagination';
+import { getUpcomingMovies } from "../../api/tmdb-api";
+import { useQuery } from 'react-query';
+
+
 
 function UpcomingMoviesListTemplate({ upcomingMovies, title, action }) {
   const [nameFilter, setNameFilter] = useState("");
   const [genreFilter, setGenreFilter] = useState("0");
   const genreId = Number(genreFilter);
+  const [currentPage, setCurrentPage] = useState(1);
+  const moviesPerPage = 5;
+
+  const { data, error, isLoading, isError, refetch } = useQuery(
+    ['upcomingMovies', currentPage], // Use currentPage as a dependency
+    () => getUpcomingMovies(currentPage), // Fetch upcoming movies based on the current page
+    { enabled: false } // Disable automatic fetching on component mount
+  );
 
   let displayedMovies = upcomingMovies
     .filter((m) => {
@@ -22,6 +35,18 @@ function UpcomingMoviesListTemplate({ upcomingMovies, title, action }) {
     else setGenreFilter(value);
   };
 
+  const handleChangePage = (event, newPage) => {
+    setCurrentPage(newPage);
+    refetch();
+  };
+
+   // Calculate the index range of movies to display on the current page
+   const startIndex = (currentPage - 1) * moviesPerPage;
+   const endIndex = startIndex + moviesPerPage;
+   const currentMovies = displayedMovies.slice(startIndex, endIndex);
+   const totalPages = Math.ceil(displayedMovies.length / moviesPerPage);
+ 
+
   return (
     <Grid container sx={{ padding: '20px' }}>
       <Grid item xs={12}>
@@ -35,7 +60,12 @@ function UpcomingMoviesListTemplate({ upcomingMovies, title, action }) {
             genreFilter={genreFilter}
           />
         </Grid>
-        <MovieList action={action} movies={displayedMovies}></MovieList>
+        <MovieList action={action} movies={currentMovies}></MovieList>
+        <Pagination
+          count={totalPages}
+          page={currentPage}
+          onChange={ handleChangePage}
+        />
       </Grid>
     </Grid>
   );
