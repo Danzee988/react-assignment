@@ -3,7 +3,7 @@ import Header from "../headerMovieList";
 import FilterCard from "../filterMoviesCard";
 import MovieList from "../movieList";
 import Grid from "@mui/material/Grid";
-import { getMoviesSorted } from "../../api/tmdb-api";
+import { getMoviesSorted, getMovies } from "../../api/tmdb-api";
 import { useQuery } from 'react-query';
 import Spinner from '../../components/spinner';
 import Pagination from '@mui/material/Pagination';
@@ -25,9 +25,7 @@ function MovieListPageTemplate({movies, title, action }) {
   const endIndex = startIndex + moviesPerPage;
 
   const [user, setUser] = useState(null);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isLoggingIn, setIsLoggingIn] = useState(false);
+
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -39,33 +37,12 @@ function MovieListPageTemplate({movies, title, action }) {
     };
   }, []);
 
-  const handleLogin = async () => {
-    try {
-      setIsLoggingIn(true);
-      await auth.signInWithEmailAndPassword(email, password);
-      // You can redirect the user or perform additional actions after login
-    } catch (error) {
-      console.error('Error logging in:', error.message);
-    } finally {
-      setIsLoggingIn(false);
-    }
-  };
-
-  const handleLogout = async () => {
-    try {
-      await auth.signOut();
-      // You can redirect the user or perform additional actions after logout
-    } catch (error) {
-      console.error('Error logging out:', error.message);
-    }
-  };
-
   let { data, error, isLoading, isError, refetch  } = useQuery('discover', () => {
     if (sortOrderFilter) {
       console.log("sort order ", sortOrderFilter)
       return getMoviesSorted(sortOrderFilter);
     } else {
-      return Promise.resolve({ results: movies }); // Uses the passed-in movies when sortOrderFilter is empty
+      return getMovies(); // Uses the passed-in movies when sortOrderFilter is empty
     }
   });
 

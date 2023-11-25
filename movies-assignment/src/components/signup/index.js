@@ -23,10 +23,25 @@ const Signup = ({ handleSignup }) => {
       navigate('/login');
     } catch (error) {
       console.error('Error signing up:', error.message);
-      setError(error.message); // Set the error message for display
+      setError(getErrorMessage(error.code));
       // Handle error, you can show an error message to the user
     }
   };
+
+  const getErrorMessage = (errorCode) => {
+    switch (errorCode) {
+      case 'auth/invalid-email':
+        return 'The email entered is not a valid one. Please try again.';
+      case 'auth/weak-password':
+        return 'The password should be at leat 6 characters. Please try again.';
+      case 'auth/email-already-in-use':
+        return 'The email  already belongs to an account. Please try to login or try again.';
+      default:
+        return 'An error occurred. Please try again later.';
+    }
+  };
+
+  
 
   return (
     <Card style={{ maxWidth: 400, margin: 'auto', marginTop: 50 }}>

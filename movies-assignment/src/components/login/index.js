@@ -26,8 +26,19 @@ const Login = () => {
       navigate('/');
     } catch (error) {
       console.error('Error logging in:', error.message);
-      setError(error.message);
+      setError(getErrorMessage(error.code));
       // Handle login error here
+    }
+  };
+
+  const getErrorMessage = (errorCode) => {
+    switch (errorCode) {
+      case 'auth/user-not-found':
+        return 'User not found. Check your email or sign up for an account.';
+      case 'auth/invalid-login-credentials':
+        return 'Incorrect password or email. Please try again.';
+      default:
+        return 'An error occurred. Please try again later.';
     }
   };
 

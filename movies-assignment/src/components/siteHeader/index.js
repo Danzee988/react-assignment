@@ -22,10 +22,8 @@ import SignalCellularAltIcon from '@mui/icons-material/SignalCellularAlt';
 import MovieIcon from '@mui/icons-material/Movie';
 import LoginIcon from '@mui/icons-material/Login';
 import EditNoteIcon from '@mui/icons-material/EditNote';
-import Login from "../login"
-import Signup from "../signup"
 import { auth } from "../../components/firebase";
-import { onAuthStateChanged, signOut } from 'firebase/auth'; // Add missing imports
+import { onAuthStateChanged, signOut } from 'firebase/auth';
 
 
 
@@ -59,8 +57,6 @@ const SiteHeader = ({ history }) => {
     { icon: <ListIcon/> ,label: "WatchList", path: "/movies/watchList" },
     { icon: <NewReleasesIcon/> ,label: "Latest", path: "/movies/latest" },
     { icon: <LocalFireDepartmentIcon/> ,label: "Popular", path: "/movies/popular" },
-   
-
   ];
 
   const menuPopular = [

@@ -30,9 +30,9 @@ const MovieRecommendationsPage = () => {
   //console.log('Movies:', JSON.stringify(popularMovies, null, 2));
 
 // Redundant, but necessary to avoid app crashing.
- const popularList = popularMovies.filter(m => m.popularList)
- localStorage.setItem('upcomingList', JSON.stringify(popularList))
- const addToPopularList = (movieId) => true 
+//  const popularList = popularMovies.filter(m => m.popularList)
+//  localStorage.setItem('upcomingList', JSON.stringify(popularList))
+//  const addToPopularList = (movieId) => true 
 
   //console.log('Movies:', JSON.stringify(movie, null, 2));
   return (

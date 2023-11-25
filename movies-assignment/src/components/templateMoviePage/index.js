@@ -9,8 +9,10 @@ import { getMovieImages } from "../../api/tmdb-api";
 const TemplateMoviePage = ({ movie, children }) => {
   const { data , error, isLoading, isError } = useQuery(
     ["images", { id: movie.id }],
-    getMovieImages
+    () => getMovieImages(movie.id)
   );
+  console.log("oh ", movie)
+
 
   if (isLoading) {
     return <Spinner />;

@@ -34,22 +34,42 @@
     });
   };
   
-  export const getMovie = (args) => {
-    const [, idPart] = args.queryKey;
-    const { id } = idPart;
+  export const getMovie = async (movieID) => {
+    try {
+      const response = await fetch(
+        `https://api.themoviedb.org/3/movie/${movieID}?api_key=${process.env.REACT_APP_TMDB_KEY}`
+      );
+  
+      if (!response.ok) {
+        throw new Error(response.json().message);
+      }
+  
+      const data = await response.json();
+      console.log("Data from API:(movies)", data);
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  };
+  
+  export const getMovie1 = (movieID) => {
     return fetch(
-      `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.REACT_APP_TMDB_KEY}`
+      `https://api.themoviedb.org/3/movie/${movieID}?api_key=${process.env.REACT_APP_TMDB_KEY}`
     ).then((response) => {
       if (!response.ok) {
         throw new Error(response.json().message);
       }
       return response.json();
     })
+    .then((data) => {
+      console.log("Data from API:(movies1)", data);
+      return data;
+    })
     .catch((error) => {
-      throw error
-   });
+      throw error;
+    });
   };
-  
+
   export const getGenres = async () => {
     return fetch(
       `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US`
@@ -64,26 +84,44 @@
    });
   };
 
-  export const getMovieImages = ({ queryKey }) => {
-    const [, idPart] = queryKey;
-    const { id } = idPart;
+  // export const getMovieImages = ({ queryKey }) => {
+  //   const [, idPart] = queryKey;
+  //   const { id } = idPart;
   
-    if (!id) {
-      throw new Error('Invalid movie ID ' + id);
+  //   if (!id) {
+  //     throw new Error('Invalid movie ID ' + id);
+  //   }
+  
+  //   return fetch(
+  //     `https://api.themoviedb.org/3/movie/${id}/images?api_key=${process.env.REACT_APP_TMDB_KEY}`
+  //   )
+  //     .then((response) => {
+  //       if (!response.ok) {
+  //         throw new Error(response.json().message);
+  //       }
+  //       return response.json();
+  //     })
+  //     .catch((error) => {
+  //       throw error;
+  //     });
+  // };
+
+  export const getMovieImages = async (movieID) => {
+    try {
+      const response = await fetch(
+        `https://api.themoviedb.org/3/movie/${movieID}/images?api_key=${process.env.REACT_APP_TMDB_KEY}`
+      );
+  
+      if (!response.ok) {
+        throw new Error(response.json().message);
+      }
+  
+      const data = await response.json();
+      console.log("Data from API:(movies)", data);
+      return data;
+    } catch (error) {
+      throw error;
     }
-  
-    return fetch(
-      `https://api.themoviedb.org/3/movie/${id}/images?api_key=${process.env.REACT_APP_TMDB_KEY}`
-    )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(response.json().message);
-        }
-        return response.json();
-      })
-      .catch((error) => {
-        throw error;
-      });
   };
 
   export const getMovieImages2 = ({ id }) => {

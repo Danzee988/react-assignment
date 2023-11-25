@@ -1,70 +1,62 @@
-# Getting Started with Create React App
+# Assignment 1 - ReactJS app.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Name: Daniel Wolski
 
-## Available Scripts
+## Overview.
 
-In the project directory, you can run:
+[A brief statement on the content of this repository.]
+This is a movies database website. The website provides information about movies, such as upcoming, popular, latest added movies, the user is able to save movies into a favourits and watch lists, also the user can check the most popular actors and movies. There is a seperate page for each movie where the user can find detailed information about the movie and the cast that is in the movie, also each movie details page has several external links that lead to that movies external pages such as IMDB or Instagram pages, each cast member has their own details page which the user can access by clicking the actors image, on the actors details page the user can find things like the actors date of birth, their bibliograph and the movies that the actor has plaied in. 
 
-### `npm start`
+### Features.
+[ A bullet-point list of the __new features__ you added to the Movies Fan app (and any modifications to existing features) .]
+ 
++ Get recommendations button added to the movie card, returns movie recommendations based on the movie the    button was clicked on.
++ Latest movies added to the siteheader
++ Popular movies added to the siteheader, returns the currently most popular movies
++ Trending menu added to the siteheader, returns two options a "Trending Actors" which displays a page of the top 20 actors of that day, the second option is "Trending Movies" which return the top 20 movies for that day 
++ Added several external links to the movies details page
++ On the movie details page a list with the most paid actors for that movie is displayed, when clicking on the actors image it opens up that actors details page.
++ Beside the list of actors there is a "View More" button which leads to the full cast of that movie.
++ In the actors page there is information about the actor and all the movies that actor was casted in.
++ In the filters card a vote average filter has been added which displays movies that range in the selected vote average.
++ In the filter card a sort order has been added that sorts the displayed movies depending on which option the user has selected
++ In every page displaying movies im using pagination where I specify the number of movies to display
++ Creation and login of an account with the use of firebase
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Setup requirements.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+[ Outline any non-standard setup steps necessary to run your app locally after cloning the repo.]
 
-### `npm test`
+## API endpoints.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+[ List the __additional__ TMDB endpoints used, giving the description and pathname for each one.] 
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
++ Movie recommendations - /movies/:id/recommendations
++ Latest movies - /movies/latest
++ Popular movies - /movies/popular
++ A page with all the actors cast in the movie - /movies/:id/actors
++ Top actors trending today - /actors/trending/day
++ top movies trending today - /movies/trending/day
++ Details about a specific actor - /movies/:id/actors/:actorsid
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Routing.
 
-### `npm run eject`
+[ List the __new routes__ supported by your app and state the associated page.]
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
++ Displays recommended movies in respect to the movie selected- /movies/:id/recommendations 
++ Displays the latest movies - /movies/latest 
++ Displays a list of popular movies - /movies/popular
++ A page with all the actors cast in the movie - /movies/:id/actors
++ Top actors trending today - /actors/trending/day
++ top movies trending today - /movies/trending/day
++ Details about a specific actor - /movies/:id/actors/:actorsid
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+[If relevant, state what aspects of your app are protected (i.e. require authentication) and what is public.]
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Independent learning (If relevant).
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Itemize the technologies/techniques you researched independently and adopted in your project, 
+i.e. aspects not covered in the lectures/labs. Include the source code filenames that illustrate these 
+(we do not require code excerpts) and provide references to the online resources that helped you (articles/blogs).
